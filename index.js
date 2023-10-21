@@ -157,5 +157,13 @@ function theThingContinued() {
   theThing(isAlerted)
 }
 
+for (let i = 0; i < 6; i++) {
+  for (let name of ["hit", "miss", "idk"]) {
+    let img = document.createElement("img")
+    img.src = `assets/${i}/${name}.png`
+    document.head.appendChild(img)
+  }
+}
+
 spin()
 updateLuckStreak()
