@@ -35,7 +35,8 @@ let punishments = [
   "For the next 30 minutes, all your screenshots need to be taken with a camera.",
   "You must forget.",
   "Deploy a forkbomb on your computer and watch it struggle to operate as its last bits of RAM are consumed by the bomb.",
-  "Next person to send a message must do whatever punishment you get, even if you miss it."
+  "Next person to send a message must do whatever punishment you get, even if you miss it.",
+  "Capitalize All Your Words for the next 24 hours."
 ];
 let spinning = true
 let chamber = 0;
@@ -87,15 +88,17 @@ function fire() {
     if (chamber >= 6 ? 5 : chamber <= hitRange) {
       document.getElementById("outcome").innerHTML = "Hit! How unfortunate..."
       document.getElementById("chambers").src = `./assets/${chamber >= 6 ? 5 : chamber}/hit.png`
-      switch (true) {
-        case punishment.startsWith("JACKPOT!"):
-          luckStreak += 999; break;
-        case punishment.startsWith("You know what?"):
-          break;
-        default:
-          luckStreak = 0; break;
-      }
-      updateLuckStreak()
+      if (blindfolded) {
+        switch (true) {
+          case punishment.startsWith("JACKPOT!"):
+            luckStreak += 999; break;
+          case punishment.startsWith("You know what?"):
+            break;
+          default:
+            luckStreak = 0; break;
+        }
+        updateLuckStreak()
+      } 
       if (document.getElementById("punishment").innerHTML.startsWith("<i>Master the power")) {
         document.getElementById("wind").play()
         doFunnyTitleThing = true
@@ -103,9 +106,11 @@ function fire() {
     } else {
       document.getElementById("chambers").src = `./assets/${chamber >= 6 ? 5 : chamber}/miss.png`
       document.getElementById("outcome").innerHTML = "Miss! You avoided the punishment."
-      luckStreak++
-      if (luckStreak > localStorage["luckStreak"] || !localStorage["luckStreak"]) localStorage["luckStreak"] = luckStreak
-      updateLuckStreak()
+      if (blindfolded) {
+        luckStreak++
+        if (luckStreak > localStorage["luckStreak"] || !localStorage["luckStreak"]) localStorage["luckStreak"] = luckStreak
+        updateLuckStreak()
+      }
     }
   } else {
     document.getElementById("outcome").innerHTML = "You haven't fired yet"
@@ -132,6 +137,7 @@ function blindfold() {
   if (doFunnyTitleThing) {theThingContinued(); return}
   blindfolded = !blindfolded
   document.getElementById("blindfold").innerHTML = blindfolded ? "Take that thing off!" : "Blindfold mode"
+  document.getElementById("streak").classList.toggle("hide", !blindfolded)
 }
 
 function theThing(enabled) {
