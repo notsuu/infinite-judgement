@@ -107,7 +107,7 @@ function fire() {
       document.getElementById("chambers").src = `./assets/${chamber >= 6 ? 5 : chamber}/miss.png`
       document.getElementById("outcome").innerHTML = "Miss! You avoided the punishment."
       if (blindfolded) {
-        luckStreak++
+        luckStreak += hitRange+1
         if (luckStreak > localStorage["luckStreak"] || !localStorage["luckStreak"]) localStorage["luckStreak"] = luckStreak
         updateLuckStreak()
       }
