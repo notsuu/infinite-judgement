@@ -47,6 +47,10 @@ let doFunnyTitleThing = false;
 let isAlerted = false
 let blindfolded = false
 let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+let sounds = {
+  deny: new Howl({ src: ["assets/insight_deny.wav"] }),
+  wind: new Howl({ src: ["assets/wind1.ogg"], loop: true })
+}
 
 function random(min, max) {
   while (true) {
@@ -100,7 +104,7 @@ function fire() {
         updateLuckStreak()
       } 
       if (document.getElementById("punishment").innerHTML.startsWith("<i>Master the power")) {
-        document.getElementById("wind").play()
+        sounds.wind.play()
         doFunnyTitleThing = true
       }
     } else {
@@ -144,12 +148,7 @@ function theThing(enabled) {
   document.getElementById("warning").classList.toggle("clickthrough", !enabled)
   document.getElementById("roulette").classList.toggle("dim", enabled)
   document.getElementsByClassName("whar")[0].classList.toggle("asdfghjk", enabled)
-  if (enabled) {
-    let sound = document.getElementById("deny")
-    sound.pause();
-    sound.currentTime = 0;
-    sound.play()
-  }
+  if (enabled) sounds.deny.play()
 }
 
 function theThingContinued() {
